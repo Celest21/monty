@@ -1,8 +1,9 @@
 #include "monty.h"
 
 /**
- * execute_file - reads and executes opcodes from a file
- * @stack: pointer to the top of the stack
+ * execute_file - Executes instructions from a file
+ * using a stack-based interpreter
+ * @stack: pointer to point to top of stack
  */
 void execute_file(stack_t **stack)
 {
@@ -23,8 +24,9 @@ void execute_file(stack_t **stack)
 }
 
 /**
- * execute_opcode - executes a single opcode
- * @opcode: opcode to execute
+ * execute_opcode - executes stack based operation 
+ * which is specified by the opcode
+ * @opcode: a string representing opcode
  * @stack: pointer to the top of the stack
  * @line_number: line number of the opcode
  */
@@ -33,6 +35,7 @@ void execute_opcode(char *opcode, stack_t **stack, unsigned int line_number)
 	instruction_t instructions[] = {
 		{"push", op_push},
 		{"pall", op_pall},
+		{"pint", op_pint},
 		{NULL, NULL}
 	};
 	int i;
