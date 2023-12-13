@@ -1,56 +1,34 @@
 #include "monty.h"
 
+glob_t glob;
+
+/**
+ * main - entry point for the monty program
+ * @argc: number of command line arguments
+ * @argv: array of command line argument strings
+ *
+ * Return: 0 on success, non-zero on failure
+ */
 int main(int argc, char *argv[])
 {
-	FILE *file;
-	char *line = NULL;
-	size_t len = 0;
-	ssize_t read;
-	unsigned int line_number = 0;
 	stack_t *stack = NULL;
 
 	if (argc != 2)
 	{
-		fprintf(stderr, "Usage: %s <filename>\n", argv[0]);
+		fprintf(stderr, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
 
-	file = fopen(argv[1], "r");
-	if (!file)
+	glob.file = fopen(argv[1], "r");
+	if (glob.file == NULL)
 	{
-		perror("Error opening file");
+		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
-	while ((read = getline(&line, &len, file)) != -1)
-	{
-		line_number++;
 
-		if (strcmp(line, "pall\n") == 0)
-		{
-			pall(&stack, line_number);
-		}
-		else if (strncmp(line, "push ", 5) == 0)
-		{
-			int value = atoi(line + 5);
-
-			if (value == 0 && line[5] != '0')
-			{
-				fprintf(stderr, "L%d: usage: push integer\n", line_number);
-				exit(EXIT_FAILURE);
-			}
-
-			push(&stack, value, line_number);
-		}
-		/*Add more opcode handling as needed*/
-		else
-		{
-			fprintf(stderr, "L%d: unknown instruction %s", line_number, line);
-			exit(EXIT_FAILURE);
-		}
-	}
-
-	free(line);
-	fclose(file);
-	return 0;
+	execute_file(&stack);
+	fclose(glob.file);
+	free(glob.line);
+	free_stack(stack);
+	exit(EXIT_SUCCESS);
 }
-
