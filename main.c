@@ -3,9 +3,9 @@
 glob_t glob;
 
 /**
- * main - entry point for the monty program
- * @argc: number of command line arguments
- * @argv: array of command line argument strings
+ * main - entry point for the monty interpreter
+ * @argc: number of command-line arguments
+ * @argv: array of command-line argument strings
  *
  * Return: 0 on success, non-zero on failure
  */
